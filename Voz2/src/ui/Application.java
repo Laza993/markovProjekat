@@ -5,13 +5,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import DatabaseDAO.DatabaseKartaDAO;
+import DatabaseDAO.DatabaseKupacDAO;
 import DatabaseDAO.DatabaseVozDAO;
+import DatabaseDAO.DatabaseVoznjaDAO;
 import Voz_Util.Meni;
 import Voz_Util.Meni.FunkcionalnaStavkaMenija;
 import Voz_Util.Meni.IzlaznaStavkaMenija;
 import Voz_Util.Meni.StavkaMenija;
 import dao.KartaDAO;
+import dao.KupacDAO;
 import dao.VozDAO;
+import dao.VoznjaDAO;
 
 public class Application {
 	
@@ -20,16 +24,19 @@ public class Application {
 	private static void initDatabase() throws SQLException {
 		
 		Connection conn = DriverManager.getConnection(
-			"jdbc:mysql://localhost:3306/voz2?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Europe/Belgrade",
+			"jdbc:mysql://localhost:3306/voz3?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Europe/Belgrade",
 			"root",
 			"root");
 		
-		KartaDAO kartaDAO = new DatabaseKartaDAO(conn);
-		VozDAO vozDAO = new DatabaseVozDAO(conn, kartaDAO);
+		VozDAO vozDAO = new DatabaseVozDAO(conn);
+		KupacDAO kupacDAO = new DatabaseKupacDAO(conn);
+		VoznjaDAO voznjaDAO = new DatabaseVoznjaDAO(conn, vozDAO);
+		KartaDAO kartaDAO = new DatabaseKartaDAO(conn, vozDAO, voznjaDAO, kupacDAO);
 		
-		KartaUI.setKartaDAO(kartaDAO);
 		VozUI.setVozDAO(vozDAO);
-		IzvestajUI.setVozDAO(vozDAO);
+		VoznjaUI.setVoznjaDAO(voznjaDAO);
+		KartaUI.setKartaDAO(kartaDAO);
+		
 		
 	}
 	
@@ -46,16 +53,16 @@ public static void main(String[] args) {
 		
 		Meni.pokreni("VOZ", new StavkaMenija[] {
 				new IzlaznaStavkaMenija("Izlaz"),
-				new FunkcionalnaStavkaMenija("Prikaz svih vozova") {
+				new FunkcionalnaStavkaMenija("Prikaz svih voznji") {
 
 					@Override
-					public void izvrsi() { VozUI.prikazSvih(); }
+					public void izvrsi() { VoznjaUI.prikazSvih(); }
 					
 				}, 
-				new FunkcionalnaStavkaMenija("Prikaz voza sa prodatim kartama") {
+				new FunkcionalnaStavkaMenija("Prikaz jedne voznje sa prodatim kartama") {
 
 					@Override
-					public void izvrsi() { VozUI.prikaz(); }
+					public void izvrsi() { VoznjaUI.PrikazVoznjeSaProdatimKartama();; }
 					
 				}, 
 				new FunkcionalnaStavkaMenija("Prodaja karata") {
@@ -64,10 +71,10 @@ public static void main(String[] args) {
 					public void izvrsi() { KartaUI.prodaja(); }
 					
 				}, 
-				new FunkcionalnaStavkaMenija("Izveštavanje") {
+				new FunkcionalnaStavkaMenija("Prikaz svih vagona za voz") {
 
 					@Override
-					public void izvrsi() { IzvestajUI.izvestavanje(); }
+					public void izvrsi() { VozUI.prikazSvihVagonaVoza(); }
 					
 				}
 			});

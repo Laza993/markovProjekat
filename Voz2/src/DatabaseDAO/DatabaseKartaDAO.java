@@ -19,17 +19,17 @@ import model.Voznja;
 
 public class DatabaseKartaDAO implements KartaDAO {
 	
-	private final Connection conn;
-//	private VozDAO vozDAO;
-//	private VoznjaDAO voznjaDAO;
-//	private KupacDAO kupacDAO;
+	private Connection conn;
+	private VozDAO vozDAO;
+	private VoznjaDAO voznjaDAO;
+	private KupacDAO kupacDAO;
 	
 public DatabaseKartaDAO(Connection conn, VozDAO vozDAO, VoznjaDAO voznjaDAO, KupacDAO kupacDAO) {
 
 		this.conn = conn;
-//		this.vozDAO = vozDAO;
-//		this.voznjaDAO = voznjaDAO;
-//		this.kupacDAO = kupacDAO;
+		this.vozDAO = vozDAO;
+		this.voznjaDAO = voznjaDAO;
+		this.kupacDAO = kupacDAO;
 	}
 	@Override
 	public Karta get(long id) throws Exception {
@@ -51,11 +51,11 @@ public DatabaseKartaDAO(Connection conn, VozDAO vozDAO, VoznjaDAO voznjaDAO, Kup
 					long vozId = rset.getLong(++kolona);
 					long voznjaId = rset.getLong(++kolona);
 					
-					VoznjaDAO voznjaDAO = new DatabaseVoznjaDAO(conn);
+				
 					Voznja voznja = voznjaDAO.get(voznjaId);
-					VozDAO vozDAO = new DatabaseVozDAO(conn);
+
 					Voz voz = vozDAO.get(vozId);
-					KupacDAO kupacDAO = new DatabaseKupacDAO(conn);
+				
 					Kupac kupac = kupacDAO.get(kupacId);
 					
 					

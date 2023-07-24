@@ -2,6 +2,8 @@ package dao;
 
 
 
+
+
 import model.Karta;
 
 

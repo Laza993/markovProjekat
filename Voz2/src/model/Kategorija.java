@@ -2,6 +2,6 @@ package model;
 
 public enum Kategorija {
 	
-	STUDENT, PENZIONER, INVALID, DETE;
+	STUDENT, PENZIONER, DETE, INVALID;
 
 }

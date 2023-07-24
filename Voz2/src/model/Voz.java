@@ -113,7 +113,7 @@ public class Voz {
 	@Override
 	public String toString() {
 		String temp = "";
-		temp += "------------------------ VOZ ------------------------\n";
+		temp += "\n------------------------ VOZ ------------------------\n";
 		temp += "ID " + this.id + "\n";
 		temp += "Naziv voza " + this.nazivVoza + "\n";
 		temp += "Vagon " + this.vagoni + "\n";

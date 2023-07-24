@@ -4,8 +4,9 @@ import java.util.Collection;
 
 import Voz_Util.Konzola;
 import dao.VozDAO;
-import model.Karta;
+import model.Vagon;
 import model.Voz;
+
 
 public class VozUI {
 
@@ -67,7 +68,7 @@ public class VozUI {
 		return voz;
 	}
 
-	public static void prikaz() {
+	public static void prikazSvihVagonaVoza() {
 		
 		try {
 			Voz voz = pronalazenje();
@@ -79,16 +80,17 @@ public class VozUI {
 			System.out.println();
 			System.out.println(voz); // print voz
 			
-			for (Karta karta : voz.getKarte()) {
-				System.out.println(karta); // print ticket
+			for (Vagon vagon : voz.getVagoni()) {
+				System.out.println(vagon); 
 			}
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.out.println("Doslo je do greske");
 		}
-
+		
 	}
+	
 //	public static void prikazVozovaProdateKarte() {
 //	    try {
 //	        Collection<Voz> vozovi = vozDAO.getAll(); // Pretpostavka da postoji DAO objekat za pristup vozovima

@@ -1,5 +1,5 @@
 package Voz_Util;
-
+import java.util.Arrays;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -137,6 +137,22 @@ public class Konzola {
 				return Integer.parseInt(in.nextLine());
 			} catch (NumberFormatException ex) {}
 		}
+	}
+	
+	public static <T extends Enum<T>> T ocitajEnum(String poruka, Class<T> enumClass) throws IllegalArgumentException, NoSuchElementException {
+	    validirajPoruku(poruka);
+
+	    System.out.println();
+	    while (true) {
+	        System.out.print(String.format("%s (opcije: %s): ", poruka, Arrays.toString(enumClass.getEnumConstants())));
+	        try {
+	            String unos = in.nextLine();
+	            return Enum.valueOf(enumClass, unos.trim().toUpperCase());
+	        } catch (IllegalArgumentException ex) {
+	            // Ako uneti string ne odgovara nijednoj vrednosti u enumu, ispisujemo poruku i ponavljamo unos
+	            System.out.println("Pogrešan unos, pokušajte ponovo.");
+	        }
+	    }
 	}
 
     /**

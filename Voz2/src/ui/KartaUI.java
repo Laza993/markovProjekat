@@ -1,14 +1,15 @@
 package ui;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import Voz_Util.Konzola;
-import Voz_Util.Tabela;
 import dao.KartaDAO;
 import model.Karta;
+import model.Kategorija;
+import model.Kupac;
+import model.Razred;
 import model.Voz;
+import model.Voznja;
 
 public class KartaUI {
 	
@@ -41,29 +42,38 @@ public class KartaUI {
 	public static void prodaja() {
 		
 		try {
-			Voz voz = VozUI.pronalazenje();
-			if (voz == null) {
+			Voznja voznja = VoznjaUI.pronalazenje();
+			if (voznja == null) {
+				System.out.println("Voznja nije pronadjena");
 				return;
 			}
-			if (voz.isPopunjen()) {
+			if (voznja.isPopunjen()) {
 				System.out.println("Nema slobodnih mesta");
 				return;
 			}
-			if (voz.isPosao()) {
+			if (voznja.isPosao()) {
 				System.out.println("Voz je vec krenuo");
 				return;
 			}
-			int razredVoza = Konzola.ocitajInt("Unesite razred voza");
-			if (razredVoza <= 0 || razredVoza > 2) {
-				System.out.println("Razred voza moze biti 1 ili 2");
+			
+			Voz voz = VozUI.pronalazenje();
+			if (voz == null) {
+				System.out.println("Voz nije pronadjen");
 				return;
 			}
-			String kupac = Konzola.ocitajString("Unesite kupca");
+			
+			Razred razredVoza = Konzola.ocitajEnum("Unesite razred (PRVI, DRUGI, TRECI): ", Razred.class);
+			
+			Kategorija kategorija = Konzola.ocitajEnum("Unesite kategoriju kupca(STUDENT, PENZIONER, DETE, INVALID): ", Kategorija.class);
+			Kupac kupac = new Kupac();
+			kupac.setKategorija(kategorija);
 			
 			LocalDateTime datumVremeProdaje = LocalDateTime.now();
 			
-			Karta karta = new Karta(datumVremeProdaje, kupac, razredVoza, voz);
+		
+			Karta karta = new Karta(datumVremeProdaje, kupac, razredVoza, voz, voznja);
 			kartaDAO.add(karta);
+	
 			System.out.println("Karta uspesno dodata");
 			
 		} catch (Exception ex) {

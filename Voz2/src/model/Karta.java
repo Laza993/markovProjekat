@@ -23,6 +23,19 @@ public class Karta {
 		this.voz = voz;
 		this.voznja = voznja;
 	}
+	
+	
+
+	public Karta(LocalDateTime datumVremeProdaje, Kupac kupac, Razred razred, Voz voz, Voznja voznja) {
+		super();
+		this.datumVremeProdaje = datumVremeProdaje;
+		this.kupac = kupac;
+		this.razred = razred;
+		this.voz = voz;
+		this.voznja = voznja;
+	}
+
+
 
 	public Karta() {
 	}

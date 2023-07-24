@@ -205,13 +205,13 @@ public class Voznja {
 		String temp = "";
 		temp += "------------------------ VOZNJA ------------------------\n";
 		temp += "ID " + this.id + "\n";
-		temp += "Voz " + this.voz + "\n";
-		temp += "Naziv " + this.naziv + "\n";
-		temp += "Datum i vreme polaska " + Konzola.formatiraj(datumVremePolaska);
-		temp += "Br. Slobodnih mesta po Razredu " + this.brSlobodnihMestaPoRazredu + "\n";
-		temp += "Pocetna stranica " + this.pocetnaStanica + "\n";
-		temp += "Krajnja Stanica " + this.krajnjaStanica + "\n";
-		temp += "Spisak stanica " + this.spisakStanica + "\n";
+		temp += "Voz: " + this.voz.getNazivVoza() + "\n";
+		temp += "Naziv: " + this.naziv + "\n";
+		temp += "Datum i vreme polaska: " + Konzola.formatiraj(datumVremePolaska) + "\n";
+		temp += "Br. Slobodnih mesta po Razredu: " + this.brSlobodnihMestaPoRazredu + "\n";
+		temp += "Pocetna stranica: " + this.pocetnaStanica + "\n";
+		temp += "Krajnja Stanica: " + this.krajnjaStanica + "\n";
+		temp += "Spisak stanica: " + this.spisakStanica + "\n";
 		// temp += "Broj slobodnih mesta" + this.brSlobodnihMesta + "\n";
 		return temp.trim();
 	}
@@ -223,4 +223,11 @@ public class Voznja {
 //				+ ", brSlobodnihMestaPoRazredu=" + brSlobodnihMestaPoRazredu + ", pocetnaStanica=" + pocetnaStanica
 //				+ ", krajnjaStanica=" + krajnjaStanica + ", spisakStanica=" + spisakStanica + "]";
 
+	public boolean isPopunjen() {
+		return brSlobodnihMestaPoRazredu.size() > karte.size();
+	}
+	
+	public boolean isPosao() {
+		return LocalDateTime.now().isAfter(datumVremePolaska);
+	}
 }
