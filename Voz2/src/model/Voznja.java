@@ -38,9 +38,9 @@ public class Voznja {
 		this.krajnjaStanica = krajnjaStanica;
 		this.spisakStanica = spisakStanica;
 		
-		brSlobodnihMestaPoRazredu.put(Razred.PRVI, 100);
-		brSlobodnihMestaPoRazredu.put(Razred.DRUGI, 80);
-		brSlobodnihMestaPoRazredu.put(Razred.TRECI, 60);
+		brSlobodnihMestaPoRazredu.put(Razred.PRVI, 80);
+		brSlobodnihMestaPoRazredu.put(Razred.DRUGI, 120);
+		brSlobodnihMestaPoRazredu.put(Razred.TRECI, 200);
 	}
 	
 

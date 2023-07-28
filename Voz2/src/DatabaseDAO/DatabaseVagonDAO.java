@@ -55,5 +55,30 @@ public class DatabaseVagonDAO implements VagonDAO {
 		}
 		return vagoni.values();
 	}
+// Vagon(long id, int brojVagona, Voz voz, Razred razred, int brojSedista)
+	@Override
+	public Vagon get(long id) throws Exception {
+		Vagon vagon = null;
+		String sql="SELECT brojVagona, vozId, razred, brojSedista FROM vagoni WHERE id = ?";
+		try(PreparedStatement stmt = conn.prepareStatement(sql)){
+			int param = 0;
+			stmt.setLong(++param, id);
+			try(ResultSet rset = stmt.executeQuery()){
+				if (rset.next()) {
+					int kolona = 0;
+					int brojVagona = rset.getInt(++kolona);
+					long vozId = rset.getLong(++kolona);
+					VozDAO vozDAO = new DatabaseVozDAO(conn);
+					Voz voz = vozDAO.get(vozId);
+					Razred razred = Razred.valueOf(rset.getString(++kolona));
+					int brojSedista = rset.getInt(++kolona);
+					
+					vagon = new Vagon(id, brojVagona, voz, razred, brojSedista);
+					
+				}
+			}
+		}
+		return vagon;
+	}
 
 }

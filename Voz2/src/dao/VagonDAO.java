@@ -9,7 +9,7 @@ public interface VagonDAO {
 	
 	
 	
-	
+	public Vagon get(long id) throws Exception;
 	public Collection<Vagon> getPrikazSvihVagonaZaVoz(Voz voz) throws Exception;
 
 }

@@ -15,7 +15,7 @@ CREATE TABLE kupci (
 	ime VARCHAR(50) NOT NULL,
 	prezime VARCHAR(50) NOT NULL,
 	datumRodjenja DATE NOT NULL,
-	jmbg BIGINT AUTO_INCREMENT,
+	jmbg BIGINT,
     kategorija ENUM('STUDENT', 'PENZIONER', 'DETE', 'INVALID'),
 	PRIMARY KEY(id)
 );
@@ -44,6 +44,29 @@ CREATE TABLE karte (
 	FOREIGN KEY(vozId) REFERENCES vozovi(id),
     FOREIGN KEY(voznjaId) REFERENCES voznje(id)
 );
+
+CREATE TABLE vagoni (
+	id BIGINT AUTO_INCREMENT,
+	brojVagona BIGINT NOT NULL,
+	vozId BIGINT NOT NULL,
+	razred ENUM('PRVI', 'DRUGI', 'TRECI'),
+	brojSedista BIGINT NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY(vozId) REFERENCES vozovi(id) 
+);
+
+INSERT INTO vagoni (id, brojVagona, vozId, razred, brojSedista) VALUES (1, 2, 2, 'PRVI', 40);
+INSERT INTO vagoni (id, brojVagona, vozId, razred, brojSedista) VALUES (2, 3, 10, 'DRUGI', 60);
+INSERT INTO vagoni (id, brojVagona, vozId, razred, brojSedista) VALUES (3, 4, 9, 'TRECI', 80);
+INSERT INTO vagoni (id, brojVagona, vozId, razred, brojSedista) VALUES (4, 1, 8, 'PRVI', 20);
+INSERT INTO vagoni (id, brojVagona, vozId, razred, brojSedista) VALUES (5, 2, 7, 'PRVI', 40);
+INSERT INTO vagoni (id, brojVagona, vozId, razred, brojSedista) VALUES (6, 4, 7, 'TRECI', 100);
+INSERT INTO vagoni (id, brojVagona, vozId, razred, brojSedista) VALUES (7, 2, 6, 'TRECI', 40);
+INSERT INTO vagoni (id, brojVagona, vozId, razred, brojSedista) VALUES (8, 3, 5, 'DRUGI', 55);
+INSERT INTO vagoni (id, brojVagona, vozId, razred, brojSedista) VALUES (9, 5, 4, 'TRECI', 120);
+INSERT INTO vagoni (id, brojVagona, vozId, razred, brojSedista) VALUES (10, 1, 3, 'DRUGI', 20);
+INSERT INTO vagoni (id, brojVagona, vozId, razred, brojSedista) VALUES (10, 2, 1, 'PRVI', 40);
+
 
 INSERT INTO voznje (id, vozId, cenaKarte, datumVremePolaska, pocetnaStanica, krajnjaStanica) VALUES (1, 1, 1200.00, '2022-05-06 07:15', 'Beograd', 'Nis');
 INSERT INTO voznje (id, vozId, cenaKarte, datumVremePolaska, pocetnaStanica, krajnjaStanica) VALUES (2, 2, 900.00, '2022-05-06 07:20', 'Beograd', 'Uzice');

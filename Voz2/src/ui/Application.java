@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import DatabaseDAO.DatabaseKartaDAO;
 import DatabaseDAO.DatabaseKupacDAO;
+import DatabaseDAO.DatabaseVagonDAO;
 import DatabaseDAO.DatabaseVozDAO;
 import DatabaseDAO.DatabaseVoznjaDAO;
 import Voz_Util.Meni;
@@ -14,6 +15,7 @@ import Voz_Util.Meni.IzlaznaStavkaMenija;
 import Voz_Util.Meni.StavkaMenija;
 import dao.KartaDAO;
 import dao.KupacDAO;
+import dao.VagonDAO;
 import dao.VozDAO;
 import dao.VoznjaDAO;
 
@@ -32,10 +34,12 @@ public class Application {
 		KupacDAO kupacDAO = new DatabaseKupacDAO(conn);
 		VoznjaDAO voznjaDAO = new DatabaseVoznjaDAO(conn, vozDAO);
 		KartaDAO kartaDAO = new DatabaseKartaDAO(conn, vozDAO, voznjaDAO, kupacDAO);
+		VagonDAO vagonDAO = new DatabaseVagonDAO(conn, vozDAO);
 		
 		VozUI.setVozDAO(vozDAO);
 		VoznjaUI.setVoznjaDAO(voznjaDAO);
 		KartaUI.setKartaDAO(kartaDAO);
+		VagonUI.setVagonDAO(vagonDAO);
 		
 		
 	}
@@ -75,6 +79,12 @@ public static void main(String[] args) {
 
 					@Override
 					public void izvrsi() { VozUI.prikazSvihVagonaVoza(); }
+					
+				}, 
+				new FunkcionalnaStavkaMenija("Prikaz svih vozova") {
+
+					@Override
+					public void izvrsi() { VozUI.prikazSvih(); }
 					
 				}
 			});

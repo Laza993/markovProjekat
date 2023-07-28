@@ -3,16 +3,10 @@ package DatabaseDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
-import dao.KartaDAO;
 import dao.VozDAO;
-import model.Karta;
-import model.Razred;
 import model.TipVoza;
 import model.Vagon;
 import model.Voz;
@@ -56,43 +50,60 @@ public class DatabaseVozDAO implements VozDAO {
 	//public Vagon(long id, int brojVagona, Voz voz, Razred razred, int brojSedista) 
 	@Override
 	public Collection<Voz> getAll() throws Exception {
-		Map<Long, Voz> vozovi = new LinkedHashMap<>();
-		
-		String sql = "SELECT v.id, v.nazivVoza, v.tipVoza, v.kapacitetVoza, "
-				+ "g.id, g.brojVagona, g.razred, g.brojSedista FROM vozovi v "
-				+ "INNER JOIN vagoni g ON v.id = g.vozId";
-		
+		Collection<Voz> vozovi = new ArrayList<>();
+		String sql = 
+				"SELECT id, nazivVoza, tipVoza, kapacitetVoza FROM vozovi";
 		try(PreparedStatement stmt = conn.prepareStatement(sql)){
-			try(ResultSet rset = stmt.executeQuery()){
-				while(rset.next()) {
-					int kolone = 0;
-					long vId = rset.getLong(++kolone);
-					String vNazivVoza = rset.getString(++kolone);
-					TipVoza vTipVoza = TipVoza.valueOf(rset.getString(++kolone));
-					int vKapacitetVoza = rset.getInt(++kolone);
-					
-					if (vKapacitetVoza <= 0 || vNazivVoza == null || vNazivVoza.isEmpty()) {
-						return vozovi.values();
-					}
-					
-					Voz voz = vozovi.get(vId); //dobavljam id smestam u voz
-					if (voz == null) { // proveravam da li je id null ako jeste novi se kreira
-						voz = new Voz(vId, vNazivVoza, null, vTipVoza, vKapacitetVoza);
-						vozovi.put(voz.getId(), voz); // kad se kreira smesta se
-					}
-					long gId = rset.getLong(++kolone);
-					if (gId != 0) {
-						int gBrojVagona = rset.getInt(++kolone);
-						Razred gRazred = Razred.valueOf(rset.getString(++kolone));
-						int gBrojSedista = rset.getInt(++kolone);
-						
-						Vagon vagon = new Vagon(gId, gBrojVagona, voz, gRazred, gBrojSedista);
-						voz.addVagon(vagon);
-					}
-				}
+		try(ResultSet rset = stmt.executeQuery()){
+			while(rset.next()) {
+				int kolona = 0;
+				long id = rset.getLong(++kolona);
+				String nazivVoza = rset.getString(++kolona);
+				TipVoza tipVoza = TipVoza.valueOf(rset.getString(++kolona));
+				int kapacitetVoza = rset.getInt(++kolona);
+				Voz voz = new Voz(id, nazivVoza, null, tipVoza, kapacitetVoza);
+						vozovi.add(voz);
 			}
-		}	
-		return vozovi.values();
+		}
+		}
+//		Map<Long, Voz> vozovi = new LinkedHashMap<>();
+//		
+//		String sql = "SELECT v.id, v.nazivVoza, v.tipVoza, v.kapacitetVoza, "
+//				+ "g.id, g.brojVagona, g.razred, g.brojSedista FROM vozovi v "
+//				+ "INNER JOIN vagoni g ON v.id = g.vozId";
+//		
+//		try(PreparedStatement stmt = conn.prepareStatement(sql)){
+//			try(ResultSet rset = stmt.executeQuery()){
+//				while(rset.next()) {
+//					int kolone = 0;
+//					long vId = rset.getLong(++kolone);
+//					String vNazivVoza = rset.getString(++kolone);
+//					TipVoza vTipVoza = TipVoza.valueOf(rset.getString(++kolone));
+//					int vKapacitetVoza = rset.getInt(++kolone);
+//					
+//					if (vKapacitetVoza <= 0 || vNazivVoza == null || vNazivVoza.isEmpty()) {
+//						return vozovi.values();
+//					}
+//					
+//					Voz voz = vozovi.get(vId); //dobavljam id smestam u voz
+//					if (voz == null) { // proveravam da li je id null ako jeste novi se kreira
+//						voz = new Voz(vId, vNazivVoza, null, vTipVoza, vKapacitetVoza);
+//						vozovi.put(voz.getId(), voz); // kad se kreira smesta se
+//					}
+//					long gId = rset.getLong(++kolone);
+//					if (gId != 0) {
+//						int gBrojVagona = rset.getInt(++kolone);
+//						Razred gRazred = Razred.valueOf(rset.getString(++kolone));
+//						int gBrojSedista = rset.getInt(++kolone);
+//						
+//						Vagon vagon = new Vagon(gId, gBrojVagona, voz, gRazred, gBrojSedista);
+//						voz.addVagon(vagon);
+//					}
+//				}
+//			}
+//		}	
+//		return vozovi.values();
+		return vozovi;
 	}
 
 	@Override

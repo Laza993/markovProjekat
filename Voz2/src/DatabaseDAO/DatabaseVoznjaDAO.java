@@ -16,6 +16,7 @@ import dao.VozDAO;
 import dao.VoznjaDAO;
 import model.Grad;
 import model.Karta;
+import model.Razred;
 import model.Stanica;
 import model.TipVoza;
 import model.Vagon;
@@ -59,7 +60,9 @@ Voznja voznja = new Voznja(id, voz, naziv, cenaKarte, datumVremePolaska, pocetna
 		}
 		return voznje;
 	}
-
+//	Voznja(long id, Voz voz, String naziv, double cenaKarte, LocalDateTime datumVremePolaska,
+//			Map<Razred, Integer> brSlobodnihMestaPoRazredu, String pocetnaStanica, String krajnjaStanica,
+//			List<Stanica> spisakStanica)
 	@Override
 	public Collection<Voznja> getKarta(Karta karta) throws Exception {
 		Collection<Voznja> voznje = new ArrayList<>();

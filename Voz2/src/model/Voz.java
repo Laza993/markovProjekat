@@ -37,6 +37,7 @@ public class Voz {
 	
 	public Voz() {}
 	
+
 	public Collection<Vagon> getVagoni() {
 		return Collections.unmodifiableList(this.vagoni);
 	}
