@@ -12,7 +12,8 @@ import model.Voznja;
 public interface VoznjaDAO {
 	
 	public Collection<Voznja> getAll() throws Exception;
-	public Collection<Voznja> getKarta(Karta karta) throws Exception;
+	
+//	public Collection<Voznja> getKarta(Karta karta) throws Exception; GRESKA!!!
 	public Voznja get(long id) throws Exception;
 	public Collection<Voznja> prikazVoznjeIzmedjuDvaGrada(Grad polznaTacka, Grad odrediste) throws Exception;
 	public Collection<Voznja> prikazVoznjeIzmedjuDveStanice(Stanica pocetnaStanica, Stanica krajnjaStanica) throws Exception;

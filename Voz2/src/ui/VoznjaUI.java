@@ -80,17 +80,26 @@ public class VoznjaUI {
 	public static void PrikazVoznjeSaProdatimKartama() {
 		
 		try {
-			Collection<Voznja> voznje = voznjaDAO.getAll();
-			
-			System.out.println();
-			for (Voznja voznja : voznje) {
-				System.out.println(voznja);
-				for (Karta karta : voznja.getKarte()) {
-					System.out.println(karta);
-				}
-				System.out.println();
-			
+			Voznja voznja = pronalazenje();
+			if (voznja == null) {
+				return;
 			}
+			System.out.println();
+			System.out.println(voznja);
+			for (Karta karta : voznja.getKarte()) {
+				System.out.println(karta);
+			}
+//			Collection<Voznja> voznje = voznjaDAO.getAll();
+//			
+//			System.out.println();
+//			for (Voznja voznja : voznje) {
+//				System.out.println(voznja);
+//				for (Karta karta : voznja.getKarte()) {
+//					System.out.println(karta);
+//				}
+//				System.out.println();
+//			
+//			}
 			
 			
 		} catch (Exception e) {
