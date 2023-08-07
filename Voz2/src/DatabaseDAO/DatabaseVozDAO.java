@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import dao.VagonDAO;
 import dao.VozDAO;
 import model.TipVoza;
 import model.Vagon;
@@ -15,14 +17,15 @@ public class DatabaseVozDAO implements VozDAO {
 	
 	private final Connection conn;
 	
+	private VagonDAO vagoniDao;
 
 	public DatabaseVozDAO(Connection conn) {
 		this.conn = conn;
-		
+		vagoniDao = new DatabaseVagonDAO(conn, null);
 	}
 	@Override
 	public Voz get(long id) throws Exception {
-		Voz voz = null;
+		Voz voz = new Voz();
 		
 		String sql = "SELECT v.nazivVoza, v.tipVoza, v.kapacitetVoza FROM vozovi v WHERE id = ?";
 			
@@ -37,9 +40,15 @@ public class DatabaseVozDAO implements VozDAO {
 					TipVoza vTipVoza = TipVoza.valueOf(rset.getString(++kolone));
 					int vKapacitetVoza = rset.getInt(++kolone);
 					
-					if (voz == null) {
-						voz = new Voz(id, vNazivVoza, null, vTipVoza, vKapacitetVoza);
-					}		
+					voz.setId(id);
+					voz.setNazivVoza(vNazivVoza);
+					voz.setKapacitetVoza(vKapacitetVoza);
+					voz.setTipVoza(vTipVoza);	
+					
+					Collection<Vagon> vagoni = vagoniDao.getVagoneZaVoz(voz);
+					List<Vagon> vagoniLista = (List<Vagon>) vagoni;
+					
+					voz.setVagoni(vagoniLista);
 				}
 			}
 		}

@@ -57,7 +57,8 @@ public class VozUI {
 	}
 
 	public static Voz pronalazenje() throws Exception {
-		prikazSvih();
+		
+//		prikazSvih();
 
 		long id = Konzola.ocitajLong("Unesite ID voza");
 

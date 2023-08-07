@@ -110,7 +110,7 @@ public DatabaseKartaDAO(Connection conn, VozDAO vozDAO, VoznjaDAO voznjaDAO, Kup
 		try(PreparedStatement stmt = conn.prepareStatement(sql)){
 			int param = 0;
 			stmt.setTimestamp(++param, Timestamp.valueOf(karta.getDatumVremeProdaje()));
-			stmt.setLong(++param, karta.getKupac().getId());
+			stmt.setLong(++param, karta.getKupac().getId()); // ovde je problem u dodavanju
 			stmt.setString(++param, karta.getRazred().name());
 			stmt.setLong(++param, karta.getVoz().getId()); 
 			stmt.setLong(++param, karta.getVoznja().getId());

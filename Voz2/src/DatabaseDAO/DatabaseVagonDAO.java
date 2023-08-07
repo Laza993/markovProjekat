@@ -3,9 +3,10 @@ package DatabaseDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-
+import java.util.List;
 import java.util.Map;
 
 import dao.VagonDAO;
@@ -31,39 +32,46 @@ public class DatabaseVagonDAO implements VagonDAO {
 
 
 	@Override
-	public Collection<Vagon> getPrikazSvihVagonaZaVoz(Voz voz) throws Exception {
-		Map<Long, Vagon> vagoni = new LinkedHashMap<>();
-		String sql = "SELECT id, brojVagona, razred, brojSedista FROM vagoni WHERE vozId = ?";
-		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+	public Collection<Vagon> getVagoneZaVoz(Voz voz) throws Exception{
+//		Map<Long, Vagon> vagoni = new LinkedHashMap<>();
+		List<Vagon> vagoni = new ArrayList();
+		
+		List<Long> listaIdevaVagona = new ArrayList();
+		
+		String sql = "SELECT id FROM vagoni WHERE vozId = ?";
+		
+		try (PreparedStatement stmt = conn.prepareStatement(sql)) {		
 			int param = 0;
 			stmt.setLong(++param, voz.getId());
 			try (ResultSet rset = stmt.executeQuery()) {
 				while (rset.next()) {
-					int kolona = 0;
-					long id = rset.getLong(++kolona);
-					int brojVagona = rset.getInt(++kolona);
-					Razred razred = Razred.valueOf(rset.getString(++kolona));
-					int brojSedista = rset.getInt(++kolona);
-
-					Vagon vagon = vagoni.get(id);
-					if (vagon == null) {
-						vagon = new Vagon(id, brojVagona, voz, razred, brojSedista);
-						vagoni.put(vagon.getId(), vagon);
-					}
+					
+					Long id = rset.getLong(1);
+					
+					listaIdevaVagona.add(id);
 				}
 			}
 		}
-		return vagoni.values();
+		
+		for(Long id : listaIdevaVagona) {
+			Vagon vagon = get(id);
+			vagoni.add(vagon);
+		}
+		
+		return vagoni;
 	}
 // Vagon(long id, int brojVagona, Voz voz, Razred razred, int brojSedista)
 	@Override
 	public Vagon get(long id) throws Exception {
 		Vagon vagon = null;
 		String sql="SELECT brojVagona, vozId, razred, brojSedista FROM vagoni WHERE id = ?";
+		
 		try(PreparedStatement stmt = conn.prepareStatement(sql)){
 			int param = 0;
 			stmt.setLong(++param, id);
+			
 			try(ResultSet rset = stmt.executeQuery()){
+				
 				if (rset.next()) {
 					int kolona = 0;
 					int brojVagona = rset.getInt(++kolona);

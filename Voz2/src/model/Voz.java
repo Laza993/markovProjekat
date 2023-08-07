@@ -15,7 +15,7 @@ public class Voz {
 	private long id;
 
 	private String nazivVoza;
-	private List<Vagon> vagoni = new ArrayList<>();
+	private List<Vagon> vagoni;
 	private TipVoza tipVoza;
 	private int kapacitetVoza;
 	
